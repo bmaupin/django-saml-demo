@@ -2,13 +2,13 @@
     "strict": true,
     "debug": true,
     "sp": {
-        "entityId": "https://<sp_domain>/metadata/",
+        "entityId": "http://localhost:8000/metadata/",
         "assertionConsumerService": {
-            "url": "https://<sp_domain>/?acs",
+            "url": "http://localhost:8000/?acs",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
         },
         "singleLogoutService": {
-            "url": "https://<sp_domain>/?sls",
+            "url": "http://localhost:8000/?sls",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
         },
         "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
@@ -16,15 +16,15 @@
         "privateKey": ""
     },
     "idp": {
-        "entityId": "https://app.onelogin.com/saml/metadata/<onelogin_connector_id>",
+        "entityId": "https://idp.example.org/idp/shibboleth",
         "singleSignOnService": {
-            "url": "https://app.onelogin.com/trust/saml2/http-post/sso/<onelogin_connector_id>",
+            "url": "https://idp.example.org/idp/profile/SAML2/Redirect/SSO",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
         },
         "singleLogoutService": {
-            "url": "https://app.onelogin.com/trust/saml2/http-redirect/slo/<onelogin_connector_id>",
+            "url": "https://idp.example.org/idp/profile/Logout",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
         },
-        "x509cert": "<onelogin_connector_cert>"
+        "x509cert": "<shibboleth_idp_signing_cert>"
     }
 }
