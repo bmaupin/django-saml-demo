@@ -38,6 +38,7 @@ def index(request):
     success_slo = False
     attributes = False
     paint_logout = False
+    response = False
 
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login())
@@ -61,6 +62,7 @@ def index(request):
             request.session['samlUserdata'] = auth.get_attributes()
             request.session['samlNameId'] = auth.get_nameid()
             request.session['samlSessionIndex'] = auth.get_session_index()
+            request.session['samlResponse'] = auth.get_last_response_xml()
             if 'RelayState' in req['post_data'] and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
                 return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
     elif 'sls' in req['get_data']:
@@ -77,12 +79,15 @@ def index(request):
         paint_logout = True
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
+        if 'samlResponse' in request.session:
+            response = request.session['samlResponse']
 
     context = RequestContext(request, {'errors': errors,
                                        'not_auth_warn': not_auth_warn,
                                        'success_slo': success_slo,
                                        'attributes': attributes,
-                                       'paint_logout': paint_logout}).flatten()
+                                       'paint_logout': paint_logout,
+                                       'response': response}).flatten()
     return render_to_response('index.html',
                               context=context)
 
